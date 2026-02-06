@@ -1,6 +1,7 @@
 package hotifruti.dto;
 
 import java.math.BigDecimal;
+import java.nio.file.attribute.DosFileAttributeView;
 import java.sql.Date; 
 
 public class LoteDTO {
@@ -9,14 +10,16 @@ public class LoteDTO {
     private String nomeProduto;    
     private String nomeFornecedor; 
     private Date dataValidade;
+    private Date dataEntrada;
     private BigDecimal custo;
 
     
-    public LoteDTO(int idLote, String nomeProduto, String nomeFornecedor, Date dataValidade, BigDecimal custo) {
+    public LoteDTO(int idLote, String nomeProduto, String nomeFornecedor, Date dataValidade, Date dataEntrada, BigDecimal custo) {
         this.idLote = idLote;
         this.nomeProduto = nomeProduto;
         this.nomeFornecedor = nomeFornecedor;
         this.dataValidade = dataValidade;
+        this.dataEntrada = dataEntrada;
         this.custo = custo;
     }
 
@@ -52,6 +55,14 @@ public class LoteDTO {
 
     public void setDataValidade(Date dataValidade) {
         this.dataValidade = dataValidade;
+    }
+
+    public Date getDaEntrada() {
+        return dataEntrada;
+    }
+
+    public void setDataEntrada(Date dataEntrada) {
+        this.dataEntrada = dataEntrada;
     }
 
     public BigDecimal getCusto() {

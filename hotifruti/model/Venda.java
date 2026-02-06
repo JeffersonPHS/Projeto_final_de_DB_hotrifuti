@@ -1,20 +1,23 @@
 package hotifruti.model;
-/*CREATE TABLE VENDA (
-    ID_Venda INT PRIMARY KEY,
-    ID_Cliente_CPF VARCHAR(14),
-    Data_Hora DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (ID_Cliente_CPF) REFERENCES CLIENTE(CPF)
-); */
+
+import java.time.LocalDateTime; // <--- Import obrigatório
+
 public class Venda {
     private int idVenda;
-    private String idClienteCpf;
-    private String dataHora;
+    private String idClienteCpf; // Mudado de int para String (VARCHAR no banco)
+    private LocalDateTime dataHora; // Mudado de DATETIME para LocalDateTime
 
-    public Venda(int idVenda, String idClienteCpf, String dataHora) {
+    // Construtor Vazio (Boa prática)
+    public Venda() {}
+
+    // Construtor Cheio
+    public Venda(int idVenda, String idClienteCpf, LocalDateTime dataHora) {
         this.idVenda = idVenda;
         this.idClienteCpf = idClienteCpf;
         this.dataHora = dataHora;
     }
+
+    // --- Getters e Setters ---
 
     public int getIdVenda() {
         return idVenda;
@@ -24,6 +27,7 @@ public class Venda {
         this.idVenda = idVenda;
     }
 
+    // CPF deve ser String em tudo!
     public String getIdClienteCpf() {
         return idClienteCpf;
     }
@@ -32,11 +36,12 @@ public class Venda {
         this.idClienteCpf = idClienteCpf;
     }
 
-    public String getDataHora() {
+    // Data agora é LocalDateTime
+    public LocalDateTime getDataHora() {
         return dataHora;
     }
 
-    public void setDataHora(String dataHora) {
+    public void setDataHora(LocalDateTime dataHora) {
         this.dataHora = dataHora;
     }
 }

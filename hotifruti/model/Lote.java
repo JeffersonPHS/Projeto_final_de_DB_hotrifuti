@@ -10,6 +10,10 @@ package hotifruti.model;
     FOREIGN KEY (ID_Fornecedor) REFERENCES FORNECEDOR(ID_Fornecedor)
 );
  */
+
+import java.math.BigDecimal;
+import java.sql.Date;
+
 public class Lote {
     private int idLote;
     private int idProduto;
