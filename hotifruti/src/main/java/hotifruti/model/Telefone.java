@@ -11,6 +11,8 @@ public class Telefone {
     private String idClienteCpf;
     private String numeroTelefone;
 
+    public Telefone() {}
+
     public Telefone(int idTelefone, String idClienteCpf, String numeroTelefone){
         this.idTelefone = idTelefone;
         this.idClienteCpf = idClienteCpf;

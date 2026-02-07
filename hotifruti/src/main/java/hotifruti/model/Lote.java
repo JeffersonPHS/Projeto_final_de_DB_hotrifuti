@@ -22,6 +22,8 @@ public class Lote {
     private Date dataValidade;
     private BigDecimal custo;
 
+    public Lote() {}
+
     public Lote(int idLote, int idProduto, int idFornecedor, Date dataEntrada, Date dataValidade, BigDecimal custo) {
         this.idLote = idLote;
         this.idProduto = idProduto;

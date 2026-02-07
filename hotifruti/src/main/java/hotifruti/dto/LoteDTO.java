@@ -1,26 +1,24 @@
 package hotifruti.dto;
 
 import java.math.BigDecimal;
-import java.nio.file.attribute.DosFileAttributeView;
-import java.sql.Date; 
+import java.sql.Date;
 
 public class LoteDTO {
 
     private int idLote;
-    private String nomeProduto;    
-    private String nomeFornecedor; 
-    private Date dataValidade;
-    private Date dataEntrada;
+    private String nomeProduto;
+    private String nomeFornecedor;
     private BigDecimal custo;
+    private Date dataEntrada;
+    private Date dataValidade;
 
-    
-    public LoteDTO(int idLote, String nomeProduto, String nomeFornecedor, Date dataValidade, Date dataEntrada, BigDecimal custo) {
+    public LoteDTO(int idLote, String nomeProduto, String nomeFornecedor, BigDecimal custo, Date dataEntrada, Date dataValidade) {
         this.idLote = idLote;
         this.nomeProduto = nomeProduto;
         this.nomeFornecedor = nomeFornecedor;
-        this.dataValidade = dataValidade;
-        this.dataEntrada = dataEntrada;
         this.custo = custo;
+        this.dataEntrada = dataEntrada;
+        this.dataValidade = dataValidade;
     }
 
     
@@ -49,20 +47,28 @@ public class LoteDTO {
         this.nomeFornecedor = nomeFornecedor;
     }
 
+    public BigDecimal getCusto() {
+        return custo;
+    }
+
+    public void setCusto(BigDecimal custo) {
+        this.custo = custo;
+    }
+
+    public Date getDataEntrada() {
+        return dataEntrada;
+    }
+
+    public void setDataEntrada(Date dataEntrada) {
+        this.dataEntrada = dataEntrada;
+    }
+
     public Date getDataValidade() {
         return dataValidade;
     }
 
     public void setDataValidade(Date dataValidade) {
         this.dataValidade = dataValidade;
-    }
-
-    public Date getDaEntrada() {
-        return dataEntrada;
-    }
-
-    public void setDataEntrada(Date dataEntrada) {
-        this.dataEntrada = dataEntrada;
     }
 
     public BigDecimal getCusto() {

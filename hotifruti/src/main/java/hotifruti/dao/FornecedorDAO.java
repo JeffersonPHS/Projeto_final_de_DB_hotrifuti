@@ -29,7 +29,6 @@ public class FornecedorDAO {
         }
     }
 
-    
     public void atualizar(Fornecedor fornecedor) throws Exception {
         String sql = "UPDATE FORNECEDOR SET Nome = ?, CNPJ = ?, Email = ? WHERE ID_Fornecedor = ?";
         try (Connection conn = Conexao.getConnection();
@@ -44,7 +43,6 @@ public class FornecedorDAO {
         }
     }
 
-    
     public void excluir(int id) throws Exception {
         String sql = "DELETE FROM FORNECEDOR WHERE ID_Fornecedor = ?";
         try (Connection conn = Conexao.getConnection();
@@ -55,7 +53,6 @@ public class FornecedorDAO {
         }
     }
 
-    
     public Fornecedor buscarPorId(int id) throws Exception {
         String sql = "SELECT * FROM FORNECEDOR WHERE ID_Fornecedor = ?";
         try (Connection conn = Conexao.getConnection();
@@ -76,7 +73,6 @@ public class FornecedorDAO {
         return null;
     }
 
-    
     public List<Fornecedor> listar() throws Exception {
         String sql = "SELECT * FROM FORNECEDOR ORDER BY Nome";
         List<Fornecedor> lista = new ArrayList<>();

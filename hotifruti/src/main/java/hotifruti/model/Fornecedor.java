@@ -7,13 +7,15 @@ package hotifruti.model;
 ); */
 public class Fornecedor {
     private int idFornecedor;
-    private String nome, cnpj, contato;
+    private String nome, cnpj, email;
 
-    public Fornecedor(int idFornecedor, String nome, String cnpj, String contato){
+    public Fornecedor() {}
+
+    public Fornecedor(int idFornecedor, String nome, String cnpj, String email){
         this.idFornecedor = idFornecedor;
         this.nome = nome;
         this.cnpj = cnpj;
-        this.contato = contato;
+        this.email = email;
     }
 
     public int getIdFornecedor(){
@@ -37,10 +39,10 @@ public class Fornecedor {
         this.cnpj = cnpj;
     }
 
-    public String getContato(){
-        return contato;
+    public String getEmail(){
+        return email;
     }
-    public void setContato(String contato){
-        this.contato = contato;
+    public void setEmail(String email){
+        this.email = email;
     }
 }

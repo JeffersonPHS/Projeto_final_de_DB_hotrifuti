@@ -11,15 +11,14 @@ public class ClienteDAO {
     public ClienteDAO() {}
 
     public void salvar(Cliente cliente) throws Exception {
+        String sql = "INSERT INTO CLIENTE (CPF, Nome) VALUES (?, ?)";
         
-        String sql = "INSERT INTO CLIENTE (Nome, CPF, Email, Telefone) VALUES (?, ?, ?, ?)";
         try (Connection conn = Conexao.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             
-            ps.setString(1, cliente.getNome());
-            ps.setString(2, cliente.getCpf());
-            ps.setString(3, cliente.getEmail());
-            ps.setString(4, cliente.getTelefone());
+            ps.setString(1, cliente.getCpf());
+            ps.setString(2, cliente.getNome());
+            
             ps.executeUpdate();
 
             try (ResultSet rs = ps.getGeneratedKeys()) {
@@ -31,15 +30,14 @@ public class ClienteDAO {
     }
 
     public void atualizar(Cliente cliente) throws Exception {
-        String sql = "UPDATE CLIENTE SET Nome = ?, CPF = ?, Email = ?, Telefone = ? WHERE ID_Cliente = ?";
+        String sql = "UPDATE CLIENTE SET CPF = ?, Nome = ? WHERE ID_Cliente = ?";
+        
         try (Connection conn = Conexao.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql)) {
             
-            ps.setString(1, cliente.getNome());
-            ps.setString(2, cliente.getCpf());
-            ps.setString(3, cliente.getEmail());
-            ps.setString(4, cliente.getTelefone());
-            ps.setInt(5, cliente.getIdCliente());
+            ps.setString(1, cliente.getCpf());
+            ps.setString(2, cliente.getNome());
+            ps.setInt(3, cliente.getIdCliente());
             
             ps.executeUpdate();
         }
@@ -47,6 +45,7 @@ public class ClienteDAO {
 
     public void excluir(int id) throws Exception {
         String sql = "DELETE FROM CLIENTE WHERE ID_Cliente = ?";
+        
         try (Connection conn = Conexao.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql)) {
             
@@ -57,18 +56,18 @@ public class ClienteDAO {
 
     public Cliente buscarPorId(int id) throws Exception {
         String sql = "SELECT * FROM CLIENTE WHERE ID_Cliente = ?";
+        
         try (Connection conn = Conexao.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql)) {
             
             ps.setInt(1, id);
+            
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     Cliente c = new Cliente();
                     c.setIdCliente(rs.getInt("ID_Cliente"));
-                    c.setNome(rs.getString("Nome"));
                     c.setCpf(rs.getString("CPF"));
-                    c.setEmail(rs.getString("Email"));
-                    c.setTelefone(rs.getString("Telefone"));
+                    c.setNome(rs.getString("Nome"));
                     return c;
                 }
             }
@@ -87,10 +86,8 @@ public class ClienteDAO {
             while (rs.next()) {
                 Cliente c = new Cliente();
                 c.setIdCliente(rs.getInt("ID_Cliente"));
-                c.setNome(rs.getString("Nome"));
                 c.setCpf(rs.getString("CPF"));
-                c.setEmail(rs.getString("Email"));
-                c.setTelefone(rs.getString("Telefone"));
+                c.setNome(rs.getString("Nome"));
                 lista.add(c);
             }
         }
