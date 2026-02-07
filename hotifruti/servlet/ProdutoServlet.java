@@ -2,6 +2,8 @@ package hotifruti.servlet;
 
 import java.io.IOException;
 import java.util.List;
+import java.math.BigDecimal; // IMPORTANTE: Faltava esse import para o peso
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -9,22 +11,17 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import hotifruti.dao.ProdutoDAO;
-import hotifruti.dao.CategoriaDAO; // Importante para o combo box
+import hotifruti.dao.CategoriaDAO;
 import hotifruti.model.Produto;
 
-// Mapeamos para uma URL única "/produto"
 @WebServlet("/produto")
 public class ProdutoServlet extends HttpServlet {
 
-    // doGet: Gerencia a NAVEGAÇÃO (Links e Botões de ir)
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) 
             throws ServletException, IOException {
         
-        // Pega o parâmetro "acao" da URL (ex: /produto?acao=editar&id=5)
         String acao = req.getParameter("acao");
-        
-        // Se não tiver ação, o padrão é listar
         if (acao == null) {
             acao = "listar";
         }
@@ -35,10 +32,10 @@ public class ProdutoServlet extends HttpServlet {
                     listar(req, resp);
                     break;
                 case "form":
-                    abrirFormulario(req, resp); // Abre tela vazia para Novo
+                    abrirFormulario(req, resp);
                     break;
                 case "editar":
-                    carregarParaEdicao(req, resp); // Abre tela preenchida
+                    carregarParaEdicao(req, resp);
                     break;
                 case "excluir":
                     excluir(req, resp);
@@ -51,30 +48,32 @@ public class ProdutoServlet extends HttpServlet {
         }
     }
 
-    // doPost: Gerencia o SALVAR (O formulário envia para cá)
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) 
             throws ServletException, IOException {
         try {
-            // Aqui você chama o método de salvar/atualizar
             salvar(req, resp);
         } catch (Exception e) {
             throw new ServletException(e);
         }
     }
 
-    // --- MÉTODOS AJUDANTES (Para não bagunçar o switch) ---
+    // --- MÉTODOS ---
 
     private void listar(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         ProdutoDAO dao = new ProdutoDAO();
         List<Produto> lista = dao.listar();
+        
+        // CORREÇÃO: "listaProdutos" (Plural) é o padrão
         req.setAttribute("listaProdutos", lista);
+        
+        // CORREÇÃO: Verifique se o nome do seu arquivo é lista-produtos.jsp
         req.getRequestDispatcher("lista-produtos.jsp").forward(req, resp);
     }
 
     private void abrirFormulario(HttpServletRequest req, HttpServletResponse resp) throws Exception {
-        // O formulário precisa das categorias para o <select>
         CategoriaDAO catDao = new CategoriaDAO();
+        // Carrega o combo box de categorias
         req.setAttribute("listaCategorias", catDao.listar());
         
         req.getRequestDispatcher("form-produto.jsp").forward(req, resp);
@@ -87,7 +86,7 @@ public class ProdutoServlet extends HttpServlet {
         
         req.setAttribute("produto", p);
         
-        // Também precisa das categorias aqui!
+        // Carrega o combo box novamente para a edição
         CategoriaDAO catDao = new CategoriaDAO();
         req.setAttribute("listaCategorias", catDao.listar());
         
@@ -102,18 +101,34 @@ public class ProdutoServlet extends HttpServlet {
     }
 
     private void salvar(HttpServletRequest req, HttpServletResponse resp) throws Exception {
-        // 1. Recebe dados
+        // 1. Recebe os dados como STRING (Texto)
+        String idCateStr = req.getParameter("idCategoria");
         String nome = req.getParameter("nome");
-        // ... pega resto dos campos ...
-        String idStr = req.getParameter("id"); // Campo hidden no form
+        String descricao = req.getParameter("descricao"); // Sem acento
+        String pesoStr = req.getParameter("peso"); // Simplifiquei o nome
+        String idStr = req.getParameter("id"); 
 
         Produto p = new Produto();
         p.setNome(nome);
-        // ... preenche p ...
+        p.setDescricao(descricao);
+
+        // 2. CONVERSÕES (A parte crítica)
+        
+        // Converte Categoria (Texto -> Inteiro)
+        if (idCateStr != null && !idCateStr.isEmpty()) {
+            p.setIdCategoria(Integer.parseInt(idCateStr));
+        }
+
+        // Converte Peso (Texto -> BigDecimal)
+        if (pesoStr != null && !pesoStr.isEmpty()) {
+            // Troca vírgula por ponto (ex: 1,50 -> 1.50) para o Java não dar erro
+            String pesoFormatado = pesoStr.replace(",", ".");
+            p.setPesoKg(new BigDecimal(pesoFormatado));
+        }
 
         ProdutoDAO dao = new ProdutoDAO();
 
-        // 2. Decide se é NOVO ou ATUALIZAÇÃO
+        // 3. Salvar ou Atualizar
         if (idStr == null || idStr.isEmpty()) {
             dao.salvar(p);
         } else {
@@ -121,7 +136,6 @@ public class ProdutoServlet extends HttpServlet {
             dao.atualizar(p);
         }
 
-        // 3. Volta pra lista
         resp.sendRedirect("produto?acao=listar");
     }
 }
