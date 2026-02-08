@@ -3,7 +3,7 @@ package hotifruti.dao;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.math.BigDecimal; // Importante para o Preço
+
 import hotifruti.model.ItemVenda;
 import hotifruti.util.Conexao;
 
@@ -17,7 +17,7 @@ public class ItemVendaDAO {
         String sql = "INSERT INTO ITEM_VENDA (ID_Venda, ID_Produto, Quantidade_Vendida, Preco_Unidade) VALUES (?, ?, ?, ?)";
         
         try (Connection conn = Conexao.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+            PreparedStatement ps = conn.prepareStatement(sql)) {
             
             ps.setInt(1, item.getIdVenda());
             ps.setInt(2, item.getIdProduto());
@@ -34,7 +34,7 @@ public class ItemVendaDAO {
         String sql = "UPDATE ITEM_VENDA SET Quantidade_Vendida = ?, Preco_Unidade = ? WHERE ID_Venda = ? AND ID_Produto = ?";
         
         try (Connection conn = Conexao.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+            PreparedStatement ps = conn.prepareStatement(sql)) {
             
             ps.setInt(1, item.getQuantidadeVendida());
             ps.setBigDecimal(2, item.getPrecoUnidade());
@@ -52,7 +52,7 @@ public class ItemVendaDAO {
         String sql = "DELETE FROM ITEM_VENDA WHERE ID_Venda = ? AND ID_Produto = ?";
         
         try (Connection conn = Conexao.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+            PreparedStatement ps = conn.prepareStatement(sql)) {
             
             ps.setInt(1, idVenda);
             ps.setInt(2, idProduto);
@@ -66,7 +66,7 @@ public class ItemVendaDAO {
         String sql = "SELECT * FROM ITEM_VENDA WHERE ID_Venda = ? AND ID_Produto = ?";
         
         try (Connection conn = Conexao.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+            PreparedStatement ps = conn.prepareStatement(sql)) {
             
             ps.setInt(1, idVenda);
             ps.setInt(2, idProduto);
@@ -92,8 +92,8 @@ public class ItemVendaDAO {
         List<ItemVenda> lista = new ArrayList<>();
         
         try (Connection conn = Conexao.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery()) {
             
             while (rs.next()) {
                 lista.add(new ItemVenda(
@@ -114,7 +114,7 @@ public class ItemVendaDAO {
         List<ItemVenda> lista = new ArrayList<>();
         
         try (Connection conn = Conexao.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+            PreparedStatement ps = conn.prepareStatement(sql)) {
             
             ps.setInt(1, idVenda);
             

@@ -4,7 +4,7 @@ import java.time.LocalDateTime; // <--- Import obrigatório
 
 public class Venda {
     private int idVenda;
-    private String idClienteCpf; // Mudado de int para String (VARCHAR no banco)
+    private String idCliente; // Mudado de int para String (VARCHAR no banco)
     private LocalDateTime dataHora; // Mudado de DATETIME para LocalDateTime
 
     // Construtor Vazio (Boa prática)
@@ -13,9 +13,9 @@ public class Venda {
     }
 
     // Construtor Cheio
-    public Venda(int idVenda, String idClienteCpf, LocalDateTime dataHora) {
+    public Venda(int idVenda, String idCliente, LocalDateTime dataHora) {
         this.idVenda = idVenda;
-        this.idClienteCpf = idClienteCpf;
+        this.idCliente = idCliente;
         this.dataHora = dataHora;
     }
 
@@ -30,12 +30,12 @@ public class Venda {
     }
 
     // CPF deve ser String em tudo!
-    public String getIdClienteCpf() {
-        return idClienteCpf;
+    public String getIdCliente() {
+        return idCliente;
     }
 
-    public void setIdClienteCpf(String idClienteCpf) {
-        this.idClienteCpf = idClienteCpf;
+    public void setIdCliente(String idCliente) {
+        this.idCliente = idCliente;
     }
 
     // Data agora é LocalDateTime

@@ -11,10 +11,10 @@ public class VendaDAO {
     public VendaDAO(){}
 
     public void salvar(Venda venda) throws Exception {
-        String sql = "INSERT INTO VENDA (ID_Cliente_CPF, Data_Hora) VALUES (?, ?)";
+        String sql = "INSERT INTO VENDA (ID_Cliente, Data_Hora) VALUES (?, ?)";
         try (Connection conn = Conexao.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, venda.getIdClienteCpf());
+            ps.setString(1, venda.getIdCliente());
             ps.setObject(2, venda.getDataHora());
             ps.executeUpdate();
 
@@ -23,10 +23,10 @@ public class VendaDAO {
     }
 
     public void atualizar(Venda venda) throws Exception {
-        String sql = "UPDATE VENDA SET ID_Cliente_CPF = ?, Data_hora = ? WHERE ID_Venda = ?";
+        String sql = "UPDATE VENDA SET ID_Cliente = ?, Data_hora = ? WHERE ID_Venda = ?";
         try (Connection conn = Conexao.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, venda.getIdClienteCpf());
+            ps.setString(1, venda.getIdCliente());
             ps.setObject(2, venda.getDataHora());
             ps.setInt(3, venda.getIdVenda());
             ps.executeUpdate();
@@ -51,7 +51,7 @@ public class VendaDAO {
                 if (rs.next()) {
                     Venda venda = new Venda();
                     
-                    venda.setIdClienteCpf(rs.getString("ID_Cliente_CPF"));
+                    venda.setIdClienteCpf(rs.getString("ID_Cliente"));
                     venda.setDataHora(rs.getObject("Data_Hora", LocalDateTime.class));
                     venda.setIdVenda(rs.getInt("ID_Venda"));
                     return venda;
@@ -70,7 +70,7 @@ public class VendaDAO {
             while (rs.next()) {
                 lista.add(new Venda(
                     rs.getInt("ID_Venda"),
-                    rs.getString("ID_Cliente_CPF"),
+                    rs.getString("ID_Cliente"),
                     rs.getObject("Data_Hora", LocalDateTime.class)));
             }
         }
